@@ -1,0 +1,9 @@
+.inner{
+    height: 27px;
+    width: 27px;
+    box-shadow:3px 3px 1px 0px rgba(50, 50, 50, 0.75);
+    border-radius: 3px
+}
+.outer{
+        border-radius: 5px
+}
