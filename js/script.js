@@ -26,14 +26,14 @@ function box(x, y, color, id, size)
         this.id=id;
         this.color=color;
         this.size=size;
-        $('#match3').append('<div class="outer" onclick="check('+id+')" id="'+id+'" style="background-color:'+color+'; height:'+size+'px; width:'+size+'px; position:absolute; top:'+y*size+'px; left:'+x*size+'px;">\n\
+        $('#match3').append('<div class="outer" onclick="checkForRemove('+id+')" id="'+id+'" style="background-color:'+color+'; height:'+size+'px; width:'+size+'px; position:absolute; top:'+y*size+'px; left:'+x*size+'px;">\n\
     <div class="inner"></div></div>');
         this.elt=document.getElementById(id);
 }
 
 box.prototype=boxTpl;
-
-function check(box)
+var removed = 0;
+function checkForRemove(box)
 {
     var current = getEltByBoxId(box.id,digits);
     console.log(current);
@@ -45,7 +45,7 @@ function check(box)
     while(true)
     {
         var next = getElementByPosition(parseInt(px)+i,py,digits);
-        if(!next)
+        if(!next || !document.getElementById(next.elt.id))
         {
             break;
         }
@@ -64,7 +64,7 @@ function check(box)
     while(true)
     {
         var prev = getElementByPosition(parseInt(px)-i,py,digits);
-        if(!prev)
+        if(!prev || !document.getElementById(prev.elt.id))
         {
             break;
         }
@@ -85,7 +85,9 @@ function check(box)
         for(var i=0; i<toRemove.length; i++)
         {
             $('#'+toRemove[i].elt.id).remove();
-
+            removed++;
+            $('#removed').empty().append(removed);
+            
             var j = 1;
             while(true)
             {
@@ -98,8 +100,9 @@ function check(box)
                 j++;
             }
         }
+        $('#win').empty().append(checkForWin(digits));
+
     }
-    console.log(toRemove);
 }
 
 function getElementByPosition(x,y,target)
@@ -128,4 +131,39 @@ function getEltByBoxId(id,target)
             }
         }
     }
+}
+
+function checkForWin(target)
+{
+    var flag = false;
+    var elements = 0;
+    for(var i=0; i<target.length; i++)
+    {
+        for(var j=0; j<target[i].length; j++)
+        {
+            var current = getElementByPosition(i,j,target);
+            if(current && document.getElementById(current.elt.id))
+            {
+                elements++;
+
+                var next = getElementByPosition(i+1,j,target);
+                var prev = getElementByPosition(i-1,j,target);
+                if(next && document.getElementById(next.elt.id) && next.color==current.color)
+                {
+                    flag = true;
+                }
+                if(prev && document.getElementById(prev.elt.id) && prev.color==current.color)
+                {
+                    flag = true;
+                }
+            }
+        }
+    }
+
+    if(flag==false && elements>0)
+        return 'lose';
+    else if(elements==0)
+        return 'win';
+    else if(flag==true && elements>0)
+        return 'process';
 }
