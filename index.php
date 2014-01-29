@@ -22,11 +22,11 @@
                 digits[i] = [];
                 for(var j=0; j<count; j++)
                 {	
-                    digits[i][j] = new box(j,i,colors[Math.floor(Math.random()*10%2)],'d'+i+'l'+j,150/count);
+                    digits[i][j] = new box(j,i,colors[Math.floor(Math.random()*10%4)],'d'+i+'l'+j,450/count);
                 }
             }
         }
-        draw(5);
+        draw(15);
         </script>
     </body>
 </html>
