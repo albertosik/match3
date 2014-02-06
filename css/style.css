@@ -2,7 +2,7 @@
     height: 27px;
     width: 27px;
     box-shadow:3px 3px 1px 0px rgba(50, 50, 50, 0.75);
-    border-radius: 3px
+    border-radius: 3px;
 }
 .outer{
         border-radius: 5px
@@ -15,4 +15,10 @@
     background-color: rgba(200, 240, 255, 0.5);
     border-radius: 15px;
     padding: 40px
+}
+#match3{
+    width: 900px;;
+    position: absolute;
+    left: 200px;
+    top: 50px
 }

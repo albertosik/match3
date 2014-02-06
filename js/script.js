@@ -19,23 +19,26 @@ var boxTpl =
         }
 };
 
-function box(x, y, color, id, size)
+function box(x, y, color, id, size, dom)
 {
         this.x=x;
         this.y=y;
         this.id=id;
         this.color=color;
         this.size=size;
-        $('#match3').append('<div class="outer" onclick="checkForRemove('+id+')" id="'+id+'" style="background-color:'+color+'; height:'+size+'px; width:'+size+'px; position:absolute; top:'+y*size+'px; left:'+x*size+'px;">\n\
-    <div class="inner"></div></div>');
-        this.elt=document.getElementById(id);
+        if(dom)
+        {
+            $('#match3').append('<div class="outer" onclick="checkForRemove('+id+')" id="'+id+'" style="background-color:'+color+'; height:'+size+'px; width:'+size+'px; position:absolute; top:'+y*size+'px; left:'+x*size+'px;">\n\
+            <div class="inner"></div></div>');
+            this.elt=document.getElementById(id);
+        }
 }
 
 box.prototype=boxTpl;
 var removed = 0;
 function checkForRemove(box)
 {
-    var current = getEltByBoxId(box.id,digits);
+    var current = getEltByBoxId(box.id,boxes);
     console.log(current);
     var px = current.x;
     var py = current.y;
@@ -44,7 +47,7 @@ function checkForRemove(box)
     var toRemove = [];
     while(true)
     {
-        var next = getElementByPosition(parseInt(px)+i,py,digits);
+        var next = getElementByPosition(parseInt(px)+i,py,boxes);
         if(!next || !document.getElementById(next.elt.id))
         {
             break;
@@ -63,7 +66,7 @@ function checkForRemove(box)
     i = 1;
     while(true)
     {
-        var prev = getElementByPosition(parseInt(px)-i,py,digits);
+        var prev = getElementByPosition(parseInt(px)-i,py,boxes);
         if(!prev || !document.getElementById(prev.elt.id))
         {
             break;
@@ -91,7 +94,7 @@ function checkForRemove(box)
             var j = 1;
             while(true)
             {
-                var upper = getElementByPosition(toRemove[i].x,toRemove[i].y-j,digits);
+                var upper = getElementByPosition(toRemove[i].x,toRemove[i].y-j,boxes);
                 if(!upper)
                 {
                     break;
@@ -100,7 +103,7 @@ function checkForRemove(box)
                 j++;
             }
         }
-        $('#win').empty().append(checkForWin(digits));
+        $('#win').empty().append(checkForWin(boxes));
 
     }
 }

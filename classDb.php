@@ -15,7 +15,7 @@ class classDb
 		{
 			die('No DB');
 		}
-		mysql_query('SET NAMES \''.DB_CHARSET.'\';');
+		mysql_query('SET NAMES \'UTF8\';');
 	}
 	function __distruct()
 	{
