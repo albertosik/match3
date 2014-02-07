@@ -9,5 +9,6 @@ else if($_POST['cmd']=='getLayout')
 {
     $layout = $db->SELECT('SELECT `layout` FROM `game` WHERE `id_gamer_2`=\'-1\'');
     echo $layout[0]['layout'];
+    $db->UPDATE('UPDATE `game` SET `id_gamer_2`=\'2\'');
 }
 ?>
