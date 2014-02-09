@@ -7,17 +7,25 @@ function auth($login,$pass,$db)
         return false;
     }
     else
-    {
-        return $auth;
+    {        
+        return $auth[0]['id'];
     }
 }
 
 function newGameCheck($db)
 {
-    $check = $db->SELECT('SELECT * FROM `game` WHERE `id_gamer_2`=\'-1\'');
-    if(sizeof($check)!=0)
+    $check = $db->SELECT('SELECT * FROM `game` ORDER BY `id` DESC');
+    if(sizeof($check)==0)
     {
-        return true;
+        return false;
+    }
+    else if($check[0]['id_gamer_1']==$_SESSION['userid'])
+    {
+        return 'myGame';
+    }
+    else if($check[0]['id_gamer_2']==-1)
+    {
+        return 'existNewGame';
     }
     else
     {

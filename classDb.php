@@ -1,43 +1,33 @@
 <?php
-class classDb
+class classDb extends mysqli
 {
-	private $dbHandler = NULL;
+	//private $dbHandler = NULL;
 	private $dbResult = NULL;
 	
 	function __construct($host, $user, $password, $dbname)
 	{
-		$this->dbHandler = mysql_connect($host, $user, $password);
-		if(!$this->dbHandler)
-		{
-			die('No connect');
-		}
-		if(!mysql_select_db($dbname, $this->dbHandler))
-		{
-			die('No DB');
-		}
-		mysql_query('SET NAMES \'UTF8\';');
+            parent::__construct($host, $user, $password, $dbname);
+
+                    if (mysqli_connect_error()) {
+                        die('Connect Error (' . mysqli_connect_errno() . ') '
+                                . mysqli_connect_error());
+                    }
 	}
-	function __distruct()
-	{
-		if($this->dbHandler != NULL)
-		{
-			@mysql_close($this->dbHandler);
-		}
-	}
+
 	
-	private function query($_com)
+	private function qry($_com)
 	{
-		$this->dbResult = mysql_query($_com);
+		$this->dbResult = $this->query($_com);
 		if(!$this->dbResult)
 		{
-			echo '<p style="color:red">'.mysql_error().'</p>';
+			echo '<p style="color:red">'.$this->error.'</p>';
 		}
 	}
 	
 	private function getResultToArray()
 	{
 		$rows = array();
-		while($row = mysql_fetch_assoc($this->dbResult))
+		while($row = $this->dbResult->fetch_assoc())
 		{
 			$rows[] = $row;
 		}
@@ -45,23 +35,23 @@ class classDb
 	}
 	 public function UPDATE($_com)
 	 {
-		$this->query($_com);
+		$this->qry($_com);
 	 }
 	 
 	 public function DELETE($_com)
 	 {
-		$this->query($_com);
+		$this->qry($_com);
 	 }
 	 
 	 public function INSERT($_com)
 	 {
-		$this->query($_com);
-		return mysql_insert_id($this->dbHandler);
+		$this->qry($_com);
+		return $this->insert_id;
 	 }
 	 
 	 public function SELECT($_com)
 	 {
-		$this->query($_com);
+		$this->qry($_com);
 		return $this->getResultToArray();
 	 }
 }

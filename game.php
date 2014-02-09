@@ -1,4 +1,5 @@
 <div id="match3"></div>
+<div id="server" style="border: black thin solid; width: 200px"></div>
 <div id="removed" style="float: right"></div>
 <div id="win" style="float: right"></div>
 <script>
@@ -32,15 +33,28 @@ function drawFromLayout(layout)
     }
 }
 <?php
-if(newGameCheck($db))
+$check = newGameCheck($db);
+if($check=='existNewGame')
 {
 ?>
 $(function(){
     $.post('ajax.php', {cmd:'getLayout'}, function(data){
         drawFromLayout(JSON.parse(data));
     });
+    websocket.onopen = function(evt){onOpen(evt, 'connect')};  
 });
 <?php     
+}
+else if($check=='myGame')
+{
+?>
+$(function(){
+    $.post('ajax.php', {cmd:'getMyLastGame'}, function(data){
+        drawFromLayout(JSON.parse(data));
+    });
+    websocket.onopen = function(evt){onOpen(evt, 'new')}; 
+});
+<?php
 }
 else
 {
@@ -49,6 +63,7 @@ var game = createLayout(20);
 drawFromLayout(JSON.parse(game));
 $(function(){
     $.post('ajax.php', {cmd:'newGame',layout:game});
+    websocket.onopen = function(evt){onOpen(evt, 'new')}; 
 });
 <?php
 }
