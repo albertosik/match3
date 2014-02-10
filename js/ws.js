@@ -1,4 +1,4 @@
- var wsUri = "ws://192.168.0.108:8047/myws"; 
+ var wsUri = "ws://192.168.3.194:8047/myws"; 
  websocket = new WebSocket(wsUri); 
  websocket.onclose = function(evt){onClose(evt)}; 
  websocket.onmessage = function(evt) { onMessage(evt) }; 
@@ -13,8 +13,17 @@
      writeToScreen("DISCONNECTED"); 
  }  
  function onMessage(evt) 
- {
-     writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>'); 
+ {     
+     if(evt.data.charAt(0)==='d')
+     {
+         var toRemove = [];
+         toRemove.push(getEltByBoxId(evt.data,boxes));
+         remove(toRemove,false);
+     }
+     else
+    {
+        writeToScreen('<span style="color: blue;">' + evt.data+'</span>'); 
+    }
  } 
  function onError(evt)
  { 
@@ -23,7 +32,7 @@
  
  function doSend(message)
  { 
-    writeToScreen("SENT: " + message);  
+    //writeToScreen("SENT: " + message);  
     websocket.send(message); 
  } 
  function writeToScreen(message) 

@@ -1,14 +1,14 @@
 <?php
 function auth($login,$pass,$db)
 {
-    $auth = $db->SELECT('SELECT * FROM `user` WHERE `login`=\''.$login.'\' AND `password`=\''.$pass.'\'');
+    $auth = $db->SELECT('SELECT `id`,`name` FROM `user` WHERE `login`=\''.$login.'\' AND `password`=\''.$pass.'\'');
     if(sizeof($auth)==0)
     {
         return false;
     }
     else
     {        
-        return $auth[0]['id'];
+        return $auth[0];
     }
 }
 

@@ -1,7 +1,8 @@
 <div id="match3"></div>
-<div id="server" style="border: black thin solid; width: 200px"></div>
-<div id="removed" style="float: right"></div>
-<div id="win" style="float: right"></div>
+<div id="name" class="status"><?=$_SESSION['name']?></div>
+<div id="server" class="status"></div>
+<div id="removed" class="status"></div>
+<div id="win" class="status"></div>
 <script>
 var boxes;
 var colors = ['red','green','blue','yellow'];
@@ -11,9 +12,9 @@ function createLayout(count)
     for(var i=0; i<count; i++)
     {
         layout[i] = [];
-        for(var j=0; j<count+15; j++)
+        for(var j=0; j<count; j++)
         {	
-            layout[i][j] = new box(j,i,colors[Math.floor(Math.random()*10%4)],'d'+i+'l'+j,600/count);
+            layout[i][j] = new box(j,i,colors[Math.floor(Math.random()*10%4)],'d'+i+'l'+j,300/count);
         }
     }
     layout = JSON.stringify(layout);
@@ -59,7 +60,7 @@ $(function(){
 else
 {
 ?>
-var game = createLayout(20);
+var game = createLayout(10);
 drawFromLayout(JSON.parse(game));
 $(function(){
     $.post('ajax.php', {cmd:'newGame',layout:game});

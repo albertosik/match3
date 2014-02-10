@@ -7,6 +7,7 @@ var boxTpl =
         color:'',
         id:null,
         size:null,
+        deleted:false,
         moveDown:function()
         {
                 $('#'+this.elt.id).animate({'top':this.y*this.size+this.size}, speed);			
@@ -85,29 +86,43 @@ function checkForRemove(box)
     if(toRemove.length>0)
     {
         toRemove.push(current);    
-        for(var i=0; i<toRemove.length; i++)
+        remove(toRemove,true);
+        var win = checkForWin(boxes);
+        if(win === 'lose' || win === 'win')
         {
-            $('#'+toRemove[i].elt.id).remove();
-            removed++;
-            $('#removed').empty().append(removed);
-            
-            var j = 1;
-            while(true)
-            {
-                var upper = getElementByPosition(toRemove[i].x,toRemove[i].y-j,boxes);
-                if(!upper)
-                {
-                    break;
-                }
-                upper.moveDown();
-                j++;
-            }
+            websocket.send('finish');
         }
-        $('#win').empty().append(checkForWin(boxes));
+        $('#win').empty().append(win);
 
     }
 }
+function remove(toRemove,send)
+{
+    for(var i=0; i<toRemove.length; i++)
+    {
+        $('#'+toRemove[i].elt.id).remove();
+        toRemove[i].deleted = true;
+        if(send)
+        {
+            websocket.send(toRemove[i].elt.id);
+            removed++;
+            websocket.send('p_'+removed);
+        }
+        $('#removed').empty().append(removed);
 
+        var j = 1;
+        while(true)
+        {
+            var upper = getElementByPosition(toRemove[i].x,toRemove[i].y-j,boxes);
+            if(!upper)
+            {
+                break;
+            }
+            upper.moveDown();
+            j++;
+        }
+    }
+}
 function getElementByPosition(x,y,target)
 {
     for(var i=0; i<target.length; i++)
