@@ -19,7 +19,7 @@ function newGameCheck($db)
     {
         return false;
     }
-    else if($check[0]['id_gamer_1']==$_SESSION['userid'])
+    else if($check[0]['id_gamer_1']==$_SESSION['userid'] && $check[0]['id_gamer_2']==-1)
     {
         return 'myGame';
     }

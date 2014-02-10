@@ -1,4 +1,4 @@
- var wsUri = "ws://192.168.3.194:8047/myws"; 
+ var wsUri = "ws://192.168.0.108:8047/myws"; 
  websocket = new WebSocket(wsUri); 
  websocket.onclose = function(evt){onClose(evt)}; 
  websocket.onmessage = function(evt) { onMessage(evt) }; 
@@ -19,6 +19,10 @@
          var toRemove = [];
          toRemove.push(getEltByBoxId(evt.data,boxes));
          remove(toRemove,false);
+     }
+     else if(evt.data === 'you winer')
+     {
+         $.post('ajax.php',{cmd:'win'});
      }
      else
     {
