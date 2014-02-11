@@ -4,22 +4,22 @@ require_once 'classDb.php';
 $db = new classDb('localhost', 'root', '', 'match3');
 if($_POST['cmd']=='newGame')
 {
-    $_SESSION['gameid'] = $db->INSERT('INSERT INTO `game` SET `id_gamer_1`=\''.$_SESSION['userid'].'\', `id_gamer_2`=\'-1\', `layout`=\''.$_POST['layout'].'\'');
+    $_SESSION['gameid'] = $db->INSERT('INSERT INTO `game` SET `id_gamer_1`=\''.$_SESSION['userid'].'\', `id_gamer_2`=\'-1\', `layout`=\''.$_POST['layout'].'\', `session_1`=\''.$_POST['id'].'\'');
 }
 else if($_POST['cmd']=='getLayout')
 {
-    $layout = $db->SELECT('SELECT `id`,`layout` FROM `game` ORDER BY `id` DESC');
+    $layout = $db->SELECT('SELECT `id`,`layout` FROM `game` WHERE `session_1`=\''.$_POST['session_1'].'\'');
     echo $layout[0]['layout'];
     $_SESSION['gameid'] = $layout[0]['id'];
-    $db->UPDATE('UPDATE `game` SET `id_gamer_2`=\''.$_SESSION['userid'].'\' WHERE `id`=\''.$layout[0]['id'].'\'');
-}
-else if($_POST['cmd']=='getMyLastGame')
-{
-    $layout = $db->SELECT('SELECT `id`,`layout` FROM `game` ORDER BY `id` DESC');
-    echo $layout[0]['layout'];
+    $db->UPDATE('UPDATE `game` SET `id_gamer_2`=\''.$_SESSION['userid'].'\', `session_2`=\''.$_POST['id'].'\' WHERE `session_1`=\''.$_POST['session_1'].'\'');
 }
 else if($_POST['cmd']=='win')
 {
     $db->UPDATE('UPDATE `game` SET `id_winner`=\''.$_SESSION['userid'].'\' WHERE `id`=\''.$_SESSION['gameid'].'\'');
+}
+else if($_POST['cmd']=='getName')
+{
+    $name = $db->SELECT('SELECT `name` FROM `user` WHERE `id`=\''.$_POST['id'].'\'');
+    echo $name[0]['name'];
 }
 ?>

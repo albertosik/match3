@@ -92,7 +92,7 @@ function checkForRemove(box)
         {
             websocket.send('finish');
         }
-        $('#win').empty().append(win);
+        //$('#win').empty().append(win);
 
     }
 }
@@ -108,7 +108,7 @@ function remove(toRemove,send)
             removed++;
             websocket.send('p_'+removed);
         }
-        $('#removed').empty().append(removed);
+        $('#removed').empty().append('Набрано очков: <br>'+removed);
 
         var j = 1;
         while(true)

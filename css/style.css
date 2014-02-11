@@ -31,6 +31,8 @@ body{
     margin: 5px;
     padding: 5px;
     background-color: rgba(200, 240, 255, 0.8);
+    color: #660000;
+    text-align: center; 
 }
 #name{
     font-size: 2em;
@@ -40,4 +42,9 @@ body{
 }
 #win{
     display: none;
+    font-size: 1.2em;
+}
+#removed{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.2em;  
 }

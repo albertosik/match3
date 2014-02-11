@@ -35,37 +35,19 @@ function drawFromLayout(layout)
 }
 <?php
 $check = newGameCheck($db);
-if($check=='existNewGame')
+if($check)
 {
 ?>
-$(function(){
-    $.post('ajax.php', {cmd:'getLayout'}, function(data){
-        drawFromLayout(JSON.parse(data));
-    });
-    websocket.onopen = function(evt){onOpen(evt, 'connect')};  
-});
+rivalsession = '<?=$check?>';
+websocket.onopen = function(evt){onOpen(evt, 's_'+rivalsession)};  
 <?php     
-}
-else if($check=='myGame')
-{
-?>
-$(function(){
-    $.post('ajax.php', {cmd:'getMyLastGame'}, function(data){
-        drawFromLayout(JSON.parse(data));
-    });
-    websocket.onopen = function(evt){onOpen(evt, 'new')}; 
-});
-<?php
 }
 else
 {
 ?>
 var game = createLayout(10);
 drawFromLayout(JSON.parse(game));
-$(function(){
-    $.post('ajax.php', {cmd:'newGame',layout:game});
-    websocket.onopen = function(evt){onOpen(evt, 'new')}; 
-});
+websocket.onopen = function(evt){onOpen(evt, 'new')}; 
 <?php
 }
 ?>
