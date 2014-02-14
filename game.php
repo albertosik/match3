@@ -3,6 +3,7 @@
 <div id="server" class="status"></div>
 <div id="removed" class="status"></div>
 <div id="win" class="status"></div>
+<div id="logout" class="status"><a href="index.php?logout=1">Выход</a></div>
 <script>
 var boxes;
 var colors = ['red','green','blue','yellow'];
