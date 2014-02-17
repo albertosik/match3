@@ -1,7 +1,7 @@
 <?php
 function auth($login,$pass,$db)
 {
-    $auth = $db->SELECT('SELECT `id`,`name` FROM `user` WHERE `login`=\''.$login.'\' AND `password`=\''.$pass.'\'');
+    $auth = $db->SELECT('SELECT `id`,`name`, `host`, `db` FROM `user`, `shard` WHERE `shard`.`id`=`user`.`id_shard` AND `login`=\''.$login.'\' AND `password`=\''.$pass.'\'');
     if(sizeof($auth)==0)
     {
         return false;
