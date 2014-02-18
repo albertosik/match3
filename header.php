@@ -8,7 +8,8 @@
         <?php
         require_once 'lib.php';
         require_once 'classDb.php';
-        $db = new classDb('localhost', 'root', '', 'match3');
+        require_once 'conf.php';
+        $db = new classDb(HOST, USER, PASSWORD, DB);
         if(isset($_POST['submit']))
         {
             $auth = auth($_POST['login'],md5($_POST['password']),$db);    
@@ -17,8 +18,14 @@
                 print_r($auth);
                 $_SESSION['userid'] = $auth['id'];
                 $_SESSION['name'] = $auth['name'];
+                $_SESSION['host'] = $auth['host'];
+                $_SESSION['db'] = $auth['db'];
+                ?>
+                <script>var wsserver = <?=$auth['wsserver'];?></script>
+                <?php
             }
         }
+        $db->close();
         ?>
         <script>
             var userid = <?=$_SESSION['userid'];?>;
