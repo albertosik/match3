@@ -28,4 +28,10 @@ function newGameCheck($db)
         return false;
     }
 }
+
+function registration($name,$login,$password,$db)
+{
+    $shard = $db->SELECT('SELECT `id` FROM `shard` WHERE `size` = (SELECT MIN(`size`) FROM `shard`)');
+    $db->INSERT('INSERT INTO `user` SET `name`=\''.$name.'\',`login`=\''.$login.'\', `password`=\''.md5($password).'\', `id_shard`=\''.$shard[0]['id'].'\'');
+}
 ?>
