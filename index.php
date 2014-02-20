@@ -14,8 +14,15 @@ if(isset($_POST['reg']))
         if($_POST['password'] == $_POST['repassword'])
         {
              $db = new classDb(HOST, USER, PASSWORD, DB);
-            registration($_POST['name'],$_POST['login'],$_POST['password'],$db);
-            unset($_GET['cmd']);
+            if(registration($_POST['name'],$_POST['login'],$_POST['password'],$db))
+            {
+                echo '<div class="ok">Регистрация прошла успешно</div>';
+                unset($_GET['cmd']);
+            }
+            else
+            {
+                echo '<div class="error">Такой логин уже существует</div>';
+            }
         }
         else 
         {

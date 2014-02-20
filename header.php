@@ -15,7 +15,6 @@
             $auth = auth($_POST['login'],md5($_POST['password']),$db);    
             if($auth)
             {
-                print_r($auth);
                 $_SESSION['userid'] = $auth['id'];
                 $_SESSION['name'] = $auth['name'];
                 $_SESSION['host'] = $auth['host'];
